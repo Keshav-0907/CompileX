@@ -4,22 +4,26 @@ import Header from "./components/common/Header";
 import Home from "./screens/Home";
 import Dashboard from "./screens/Dashboard";
 import Compiler from "./screens/Compiler";
-import {Toaster} from 'react-hot-toast'
+import { Toaster } from "react-hot-toast";
+import Login from "./screens/Login";
+import SignUp from "./screens/SignUp";
 
 function App() {
     return (
-       <>
-        <Header/>
-        <Toaster/>
-         <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/compiler" element={<Compiler />} />
-                <Route path="/compiler/:id" element={<Compiler />} />
-            </Routes>
-        </BrowserRouter>
-       </>
+        <>
+            <BrowserRouter>
+                <Header />
+                <Toaster />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/compiler" element={<Compiler />} />
+                    <Route path="/compiler/:id" element={<Compiler />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<SignUp />} />
+                </Routes>
+            </BrowserRouter>
+        </>
     );
 }
 
