@@ -2,7 +2,6 @@ import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import React from "react";
 import { RectangleEllipsis } from "lucide-react";
-import { CornerRightDown } from "lucide-react";
 
 const Output: React.FC = () => {
     const finalCode = useSelector(

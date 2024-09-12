@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const router = require('./routes/codeRoute')
+const userRouter = require('./routes/userRoutes')
 const dotenv = require('dotenv') 
 const connectToDB = require('./utils/connectToDB')
 const bodyParser = require('body-parser')
@@ -20,6 +21,7 @@ app.get('/', (req, res)=>{
 })
 
 app.use('/api', router)
+app.use('/api/user', userRouter)
 
 
 app.listen(8080, (req, res)=>{

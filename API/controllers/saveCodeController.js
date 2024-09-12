@@ -4,8 +4,6 @@ const saveCode = async (req, res) => {
     try {
         const { html, css, javascript } = req.body;
 
-        console.log('hhe', req.body);
-
         const newCode = new code({
             codeData: {
                 html,
