@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleColorMode } from "@/store/slices/colorModeSlice";
 import { RootState } from "@/store/store";
 import { Link } from "react-router-dom";
-import useAuth from "../../../hooks/useAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     DropdownMenu,
@@ -15,27 +14,32 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import toast from "react-hot-toast";
+import AuthContext from "@/context/AuthContext";
+import { useContext } from "react";
 
 const Header = () => {
-    const { isAuthenticated, user, logout } = useAuth();
+
+    const authContext = useContext(AuthContext); 
+
+    const { user, logout } = authContext;
+
     const dispatch = useDispatch();
     const colorMode = useSelector(
         (state: RootState) => state.colorModeSlice.mode
     );
 
-    console.log("user", user);
 
     const handleClick = () => {
         const newColorMode = colorMode === "light" ? "dark" : "light";
         dispatch(toggleColorMode(newColorMode));
     };
 
-    const handleLogout = () => {
-        toast.success("Logged Out Successfully");
-        setTimeout(() => {
-            logout();
-        }, 1000);
-    };
+    // const handleLogout = () => {
+    //     toast.success("Logged Out Successfully");
+    //     setTimeout(() => {
+    //         logout();
+    //     }, 1000);
+    // };
 
     return (
         <div className="bg-blue-300 py-2 px-10 flex justify-between border-b-2 items-center">
@@ -48,29 +52,7 @@ const Header = () => {
             </Link>
 
             <div className="flex gap-4 items-center">
-                {/* <button
-                    onClick={handleClick}
-                    className={`
-                    p-2 rounded-full
-                    transition-colors duration-200 ease-in-out
-                    focus:outline-none
-                    ${
-                        colorMode === "light"
-                            ? "bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none"
-                            : "bg-gray-800 text-gray-100 hover:bg-gray-700 focus:outline-none"
-                    }
-                `}
-                    aria-label={`Toggle ${
-                        colorMode === "light" ? "Dark" : "Light"
-                    } Mode`}
-                >
-                    {colorMode === "light" ? (
-                        <Moon size={20} />
-                    ) : (
-                        <Sun size={20} />
-                    )}
-                </button> */}
-                {isAuthenticated ? (
+                {user ? (
                     <DropdownMenu>
                         <DropdownMenuTrigger>
                             <div className="flex gap-2 items-center bg-blue-200 shadow-md p-1 rounded-xl cursor-pointer">
@@ -92,7 +74,7 @@ const Header = () => {
                             <DropdownMenuItem>
                                 <Link to={"/"}>Github</Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={handleLogout}>
+                            <DropdownMenuItem onClick={logout}>
                                 LogOut
                             </DropdownMenuItem>
                         </DropdownMenuContent>
