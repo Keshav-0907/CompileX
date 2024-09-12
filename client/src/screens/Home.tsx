@@ -63,7 +63,7 @@ interface HomeProps {
     children?: React.ReactNode;
 }
 
-const Home: React.FC<HomeProps> = ({ className, children }) => {
+const Home: React.FC<HomeProps> = ({ className }) => {
     const parentRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -154,7 +154,7 @@ interface CollisionMechanismProps {
 }
 
 const CollisionMechanism: React.FC<CollisionMechanismProps> = React.forwardRef(
-    ({ parentRef, containerRef, beamOptions = {} }, ref) => {
+    ({ parentRef, containerRef, beamOptions = {} }) => {
         const beamRef = useRef<HTMLDivElement>(null);
         const [collision, setCollision] = React.useState<{
             detected: boolean;
@@ -268,7 +268,7 @@ const CollisionMechanism: React.FC<CollisionMechanismProps> = React.forwardRef(
 
 CollisionMechanism.displayName = "CollisionMechanism";
 
-interface ExplosionProps extends React.HTMLProps<HTMLDivElement> {}
+type ExplosionProps = React.HTMLProps<HTMLDivElement>
 
 const Explosion: React.FC<ExplosionProps> = ({ ...props }) => {
     const spans = Array.from({ length: 20 }, (_, index) => ({

@@ -1,10 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
-import React, { useState, useContext, useEffect } from "react";
-import toast from "react-hot-toast";
+import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import AuthContext from "@/context/AuthContext";
 
 const Login = () => {

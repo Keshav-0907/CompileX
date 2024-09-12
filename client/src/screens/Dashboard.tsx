@@ -4,13 +4,7 @@ import AuthContext from "@/context/AuthContext";
 import { useContext } from "react";
 import CodeCard from "@/components/common/CodeCard";
 import { Card, CardContent } from "@/components/ui/card";
-import { FileJson, FileCode, Plus } from "lucide-react";
-
-const files = [
-    { name: "index.html", icon: FileJson, color: "text-orange-500" },
-    { name: "styles.css", icon: FileCode, color: "text-blue-500" },
-    { name: "script.js", icon: FileJson, color: "text-yellow-500" },
-];
+import {Plus } from "lucide-react";
 
 const Dashboard = () => {
     const navigate = useNavigate();

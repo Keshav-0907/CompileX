@@ -1,8 +1,3 @@
-import { Button } from "../ui/button";
-import { Moon, Sun } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleColorMode } from "@/store/slices/colorModeSlice";
-import { RootState } from "@/store/store";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -13,7 +8,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import toast from "react-hot-toast";
 import AuthContext from "@/context/AuthContext";
 import { useContext } from "react";
 
@@ -22,17 +16,10 @@ const Header = () => {
     const authContext = useContext(AuthContext); 
 
     const { user, logout } = authContext;
-
-    const dispatch = useDispatch();
-    const colorMode = useSelector(
-        (state: RootState) => state.colorModeSlice.mode
-    );
-
-
-    const handleClick = () => {
-        const newColorMode = colorMode === "light" ? "dark" : "light";
-        dispatch(toggleColorMode(newColorMode));
-    };
+    // const handleClick = () => {
+    //     const newColorMode = colorMode === "light" ? "dark" : "light";
+    //     dispatch(toggleColorMode(newColorMode));
+    // };
 
     // const handleLogout = () => {
     //     toast.success("Logged Out Successfully");
