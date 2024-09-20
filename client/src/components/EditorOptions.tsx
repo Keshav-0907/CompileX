@@ -1,78 +1,156 @@
-import { ArrowDownToLine, Share2 } from "lucide-react"; // Combining imports from the same package
+import React, { useEffect, useState, useContext, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { ArrowDownToLine, Share2 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "./ui/button";
-import { useDispatch, useSelector } from "react-redux";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { FaHtml5, FaCss3 } from "react-icons/fa";
+import { RiJavascriptFill } from "react-icons/ri";
+import {
+    uniqueNamesGenerator,
+    adjectives,
+    colors,
+    animals,
+} from "unique-names-generator";
+
 import { RootState } from "@/store/store";
 import { changeFileToShow } from "@/store/slices/compilerSlice";
-import axios from "axios";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import {
-    Dialog,
-    DialogTrigger,
-} from "@/components/ui/dialog";
+import AuthContext from "@/context/AuthContext";
 import ShareCodeModal from "./ShareCodeModal";
+import SaveModal from "./SaveModal";
+import { useParams } from "react-router";
 
 const EditorOptions = () => {
-    const dispatch = useDispatch();
+    const { id } = useParams();
+    const codeId = id;
 
+    const dispatch = useDispatch();
+    const authContext = useContext(AuthContext);
+    const navigate = useNavigate();
+    const { user } = authContext;
+    const [fileName, setFileName] = useState("");
     const [isSaving, setIsSaving] = useState(false);
+    const [isAutoSaving, setIsAutoSaving] = useState(false);
     const currFile = useSelector(
         (state: RootState) => state.compilerSlice.fileToShow
     );
+    const codeState = useSelector(
+        (state: RootState) => state.compilerSlice.code
+    );
+    // const codeId = useSelector((state: RootState) => state.compilerSlice.codeId);
 
-    const state = useSelector((state: RootState) => state);
-    console.log("state", state);
+    useEffect(() => {
+        const randomName = uniqueNamesGenerator({
+            dictionaries: [adjectives, colors, animals],
+        });
+        setFileName(randomName);
+    }, []);
+
+    console.log("user", user);
 
     const handleCodeSave = async () => {
-        setIsSaving(true);
+        if (!user) {
+            console.log("no user");
+            toast.error("Please login to save the code");
+            return;
+        }
+
         const res = await axios.post(
             `${import.meta.env.VITE_API_BASE_URL}/api/savecode`,
             {
-                html: state.compilerSlice.code.html,
-                css: state.compilerSlice.code.css,
-                javascript: state.compilerSlice.code.javascript,
+                name: fileName,
+                codeData: {
+                    html: codeState.html,
+                    css: codeState.css,
+                    javascript: codeState.javascript,
+                },
+                userID: user._id,
             }
         );
-        if (res.status === 200) {
-            toast.success("Code saved successfully");
-        }
-        // joi kk
 
-        setIsSaving(false);
+        if (res.status === 200) {
+            toast.success(
+                codeId ? "Code updated successfully" : "Code saved successfully"
+            );
+            if (!codeId) {
+                navigate(`/compiler/${res.data.codeID}`);
+            }
+        }
+    };
+
+    const handleUpdateCode = async () => {
+        const res = await axios.post(
+            `${import.meta.env.VITE_API_BASE_URL}/api/updatecode`,
+            {
+                codeID: codeId,
+                codeData: {
+                    html: codeState.html,
+                    css: codeState.css,
+                    javascript: codeState.javascript,
+                },
+                userID: user._id,
+            }
+        );
+
+        console.log("update", res);
+
+        if (res.status === 200) {
+            toast.success("Code updated successfully");
+        }
     };
 
     return (
-        <div className="p-2 flex justify-between">
+        <div className="p-2 flex justify-between bg-[#141414]">
             <Tabs
                 defaultValue={currFile}
                 onValueChange={(value) => dispatch(changeFileToShow(value))}
                 className="p-0"
             >
                 <TabsList>
-                    <TabsTrigger value="html">HTML</TabsTrigger>
-                    <TabsTrigger value="css">CSS</TabsTrigger>
-                    <TabsTrigger value="javascript">JavaScript</TabsTrigger>
+                    <TabsTrigger value="html">
+                        <FaHtml5 /> HTML
+                    </TabsTrigger>
+                    <TabsTrigger value="css">
+                        <FaCss3 /> CSS
+                    </TabsTrigger>
+                    <TabsTrigger value="javascript">
+                        <RiJavascriptFill /> JavaScript
+                    </TabsTrigger>
                 </TabsList>
             </Tabs>
 
-            <div className="flex gap-5">
-                <Button
-                    variant={"outline"}
-                    className="flex gap-1"
-                    onClick={handleCodeSave}
-                >
-                    {" "}
-                    <ArrowDownToLine size={16} /> {isSaving ? "Saving" : "Save"}
-                </Button>
+            <div className="flex gap-5 items-center">
+                {isAutoSaving && (
+                    <span className="text-sm text-gray-400">
+                        Auto-saving...
+                    </span>
+                )}
+                {codeId ? (
+                    <Button
+                        variant="outline"
+                        onClick={handleUpdateCode}
+                        className="flex gap-1"
+                    >
+                        Update
+                    </Button>
+                ) : (
+                    <SaveModal
+                        handleCodeSave={handleCodeSave}
+                        isSaving={isSaving}
+                        fileName={fileName}
+                    />
+                )}
+
                 <Dialog>
                     <DialogTrigger>
                         <Button variant={"outline"} className="flex gap-1">
-                            {" "}
-                            <Share2 size={16} /> Share{" "}
+                            <Share2 size={16} /> Share
                         </Button>
                     </DialogTrigger>
-                    <ShareCodeModal/>
+                    <ShareCodeModal />
                 </Dialog>
             </div>
         </div>

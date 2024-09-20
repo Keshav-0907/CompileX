@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "@/context/AuthContext";
+import { User, RectangleEllipsis, Mail } from "lucide-react";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -16,49 +16,53 @@ const Login = () => {
         await login(email, password);
     };
 
-    console.log('user', user)
+    console.log("user", user);
 
     useEffect(() => {
         if (user) {
             navigate("/dashboard");
         }
-    },[navigate, user])
+    }, [navigate, user]);
 
     return (
-        <div className="flex items-center justify-center h-screen bg-blue-50">
-            <div className="bg-white p-8 rounded-lg shadow-lg w-1/3">
-                <div className="text-2xl font-semibold text-blue-700 text-center mb-6">
+        <div className="flex items-center justify-center bg-[#141414] h-[calc(100vh-71px)] shadow-md">
+            <div className="bg-[#1c1c1c] p-8 rounded-lg shadow-xl shadow-[#000000]/40 w-1/3 border-[1px] border-[#FEEDEC]/30">
+                <div className="text-2xl font-semibold text-white text-center mb-6">
                     Login to CompileX
                 </div>
                 <div className="space-y-4">
-                    <Input
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-4 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Email ID"
-                        type="email"
-                    />
-                    <Input
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full px-4 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Password"
-                        type="password"
-                    />
+                    <div className="bg-[#1c1c1c] text-white border-[1px] border-[#FEEDEC] flex rounded-md gap-2 py-2 px-2">
+                        <Mail size={20} strokeWidth={2} />
+                        <input
+                            type="text"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full bg-[#1c1c1c] text-white outline-none text-sm"
+                            placeholder="Email"
+                        />
+                    </div>
+
+                    <div className="bg-[#1c1c1c] text-white border-[1px] border-[#FEEDEC] flex rounded-md gap-2 py-2 px-2">
+                        <RectangleEllipsis size={20} strokeWidth={2} />
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full bg-[#1c1c1c] text-white outline-none text-sm"
+                            placeholder="Password"
+                        />
+                    </div>
+
                     <Button
                         onClick={handleLogin}
                         disabled={loading}
-                        className={`w-full py-2 rounded-md transition-colors duration-200 ${
-                            loading
-                                ? "bg-blue-400 cursor-not-allowed"
-                                : "bg-blue-600 text-white hover:bg-blue-700"
-                        }`}
+                        className="w-full bg-white text-black hover:bg-white rounded-md py-2"
                     >
                         {loading ? "Logging in..." : "Submit"}
                     </Button>
                 </div>
-                <div className="text-sm pt-2">
-                    Not Registered? <Link to="/signup">Sign Up Here</Link>
+                <div className="text-sm pt-2 text-white">
+                    Not Registered? <Link to="/signup" className="text-blue-300">Sign Up Here</Link>
                 </div>
             </div>
         </div>

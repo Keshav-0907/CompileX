@@ -10,68 +10,71 @@ import {
 } from "@/components/ui/dropdown-menu";
 import AuthContext from "@/context/AuthContext";
 import { useContext } from "react";
+import toast from "react-hot-toast";
+import { FaUser } from "react-icons/fa";
 
 const Header = () => {
-
-    const authContext = useContext(AuthContext); 
+    const authContext = useContext(AuthContext);
 
     const { user, logout } = authContext;
-    // const handleClick = () => {
-    //     const newColorMode = colorMode === "light" ? "dark" : "light";
-    //     dispatch(toggleColorMode(newColorMode));
-    // };
 
-    // const handleLogout = () => {
-    //     toast.success("Logged Out Successfully");
-    //     setTimeout(() => {
-    //         logout();
-    //     }, 1000);
-    // };
+    const handlePricing = () => {
+        toast.success("Jk, its free");
+    };
 
     return (
-        <div className="bg-blue-300 py-2 px-10 flex justify-between border-b-2 items-center">
+        <div className="bg-[#141414] py-4 px-10 flex justify-between items-center border-b-[1px] border-[#FEEDEC]/30">
             <Link to={"/"}>
-                <img
-                    src="https://res.cloudinary.com/dzqgyl0wf/image/upload/v1726008449/rbljfsr8o3ykqzi9f11y.png"
-                    className="w-1/4 cursor-pointer"
-                    alt="err"
-                />
+                <div className="text-white text-sm font-thin">COMPILE-X</div>
             </Link>
+
+            <div className="text-white text-sm flex gap-16">
+                <Link target="_blank" to={"https://x.com/_keshav_malik"}>
+                    Contact Us
+                </Link>
+                <Link
+                    target="_blank"
+                    to={"https://github.com/Keshav-0907/CompileX"}
+                >
+                    Github
+                </Link>
+                <Link to={"/"}>Services</Link>
+                <div className="cursor-pointer" onClick={handlePricing}>
+                    Pricing
+                </div>
+            </div>
 
             <div className="flex gap-4 items-center">
                 {user ? (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger>
-                            <div className="flex gap-2 items-center bg-blue-200 shadow-md p-1 rounded-xl cursor-pointer">
-                                <Avatar>
-                                    <AvatarImage src="https://github.com/shadcn.png" />
-                                    <AvatarFallback>
-                                        {user?.name}
-                                    </AvatarFallback>
-                                </Avatar>
-                                Hi, {user?.name}
-                            </div>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>
-                                <Link to={"/dashboard"}>Dashboard</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link to={"/"}>Github</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={logout}>
-                                LogOut
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <div className="flex gap-2">
+                        <Link className="flex gap-2 text-white text-sm bg-[#3d3d3d] items-center shadow-md py-2 px-4 rounded-md cursor-pointer" to={"/dashboard"}> Dashboard </Link>
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger>
+                                <div className="flex gap-2 text-white text-sm bg-[#3d3d3d] items-center shadow-md py-2 px-4 rounded-md cursor-pointer">
+                                    <FaUser /> Hi, {user?.name}
+                                </div>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuLabel>
+                                    My Account
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem>
+                                    <Link to={"/dashboard"}>Dashboard</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={logout}>
+                                    LogOut
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
                 ) : (
                     <Link
                         to={"/signup"}
-                        className="px-4 py-2 text-black backdrop-blur-sm border border-black rounded-md hover:shadow-[0px_0px_4px_4px_rgba(0,0,0,0.1)] bg-white/[0.2] text-sm transition duration-200"
+                        className="text-white text-sm border-[1px] border-[#4a4a4a] rounded-[12px]  px-4 py-2"
                     >
-                        Signup Now
+                        Sign Up Now
                     </Link>
                 )}
             </div>

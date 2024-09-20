@@ -1,28 +1,75 @@
-import { FileJson, FileCode } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import React from "react";
+import { Button } from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { FaHtml5, FaCss3Alt } from "react-icons/fa";
+import { TbBrandJavascript } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-const CodeCard = () => {
-  const files = [
-    { name: 'index.html', icon: FileJson, color: 'text-orange-500' },
-    { name: 'styles.css', icon: FileCode, color: 'text-blue-500' },
-    { name: 'script.js', icon: FileJson, color: 'text-yellow-500' },
-  ];
+const formatDate = (timestamp) => {
+    if (!timestamp) return "N/A"; // Handle undefined or null timestamps
+    const date = new Date(timestamp);
+    return isNaN(date) ? "Invalid date" : date.toISOString().split("T")[0];
+};
 
-  return (
-    <Card className="w-64 bg-blue-50 shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-      <CardContent className="p-4">
-        <h3 className="text-lg font-semibold text-blue-800 mb-4">Project Files</h3>
-        <ul className="space-y-3">
-          {files.map((file, index) => (
-            <li key={index} className="flex items-center space-x-3">
-              <file.icon className={`w-5 h-5 ${file.color}`} />
-              <span className="text-blue-700">{file.name}</span>
-            </li>
-          ))}
-        </ul>
-      </CardContent>
-    </Card>
-  );
+const CodeCard = ({ project, handleDelete }) => {
+    const navigate = useNavigate();
+
+   
+    return (
+        <Card className="w-[350px] border-[1px] border-gray-600 transition-shadow duration-300 bg-[#141414]">
+            <CardHeader className="space-y-1 text-white">
+                <CardTitle className="text-2xl font-bold">
+                    {project.name}
+                </CardTitle>
+                <CardDescription className="text-sm text-gray-500">
+                    Last modified: {formatDate(project?.updatedAt)}
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div className="space-y-2 text-white">
+                    <Label className="flex items-center gap-2 text-sm font-medium">
+                        <FaHtml5 className="text-orange-500" size={20} /> HTML
+                    </Label>
+                    <Label className="flex items-center gap-2 text-sm font-medium">
+                        <FaCss3Alt className="text-blue-500" size={20} /> CSS
+                    </Label>
+                    <Label className="flex items-center gap-2 text-sm font-medium">
+                        <TbBrandJavascript
+                            className="text-yellow-400"
+                            size={20}
+                        />{" "}
+                        JavaScript
+                    </Label>
+                </div>
+            </CardContent>
+            <CardFooter className="flex justify-between gap-10">
+                <Button
+                    variant="destructive"
+                    className="w-full"
+                    onClick={() => handleDelete(project._id)}
+                >
+                    Delete
+                </Button>
+                <Button
+                    variant="secondary"
+                    className="w-full"
+                    onClick={() => navigate(`/compiler/${project._id}`)}
+                >
+                    Visit
+                </Button>
+            </CardFooter>
+        </Card>
+    );
 };
 
 export default CodeCard;

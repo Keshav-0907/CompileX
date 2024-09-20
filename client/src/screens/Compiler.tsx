@@ -36,13 +36,13 @@ const Compiler = () => {
         }
     }, [dispatch, id]);
     return (
-        <ResizablePanelGroup direction="horizontal" className="h-full">
-            <ResizablePanel className="h-screen">
+        <ResizablePanelGroup direction="horizontal" className="h-[calc(100vh-71px)]">
+            <ResizablePanel className="">
                 <EditorOptions />
                 <Editor />
             </ResizablePanel>
             <ResizableHandle />
-            <ResizablePanel>
+            <ResizablePanel className="">
                 <Output />
             </ResizablePanel>
         </ResizablePanelGroup>

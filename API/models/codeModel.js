@@ -1,13 +1,26 @@
 const mongoose = require('mongoose');
 
 const codeSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
     codeData: {
-        html: String,
-        css: String,
-        javascript: String
-    }
-})
+        html: {
+            type: String,
+            default: ''
+        },
+        css: {
+            type: String,
+            default: ''
+        },
+        javascript: {
+            type: String,
+            default: ''
+        }
+    },
+}, { timestamps: true });
 
-const code = mongoose.model('code', codeSchema);
+const Code = mongoose.model('Code1', codeSchema);
 
-module.exports = code;
+module.exports = Code;

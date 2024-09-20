@@ -1,27 +1,37 @@
-const code = require("../models/codeModel");
+const Code = require("../models/codeModel");
+const User = require("../models/userModel");
 
 const saveCode = async (req, res) => {
     try {
-        const { html, css, javascript } = req.body;
+        const { codeData, name, userID } = req.body;
 
-        const newCode = new code({
+        console.log('userID', userID);
+
+        const newCode = new Code({
+            name,
             codeData: {
-                html,
-                css,
-                javascript,
+                html: codeData.html,
+                css : codeData.css,
+                javascript: codeData.javascript,
             },
         });
+        const savedCode = await newCode.save();
+        const user = await User.findById(userID);
 
-        await newCode.save();
+        user.programs.push(savedCode._id);
+        const UpdatedUser = await user.save();
 
         return res.json({
             message: "Code Saved",
-            data: newCode,
+            data: savedCode,
             success: true,
+            codeID: savedCode._id,
         });
     } catch (error) {
-        return res.json({
+        console.error('Error saving code:', error);
+        return res.status(500).json({
             message: "Error saving code",
+            error: error.message,
             success: false,
         });
     }

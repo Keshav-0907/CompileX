@@ -15,7 +15,7 @@ interface JWTTokenPayload {
     email: string;
     name: string;
     programs: string[]; // Adjust the type based on your data (e.g., an array of strings or other)
-    _id: string;
+    id: string;
   }
   
   // Define the User interface
@@ -45,7 +45,7 @@ useEffect(() => {
           email: decoded.email,
           name: decoded.name,
           programs: decoded.programs,
-          _id: decoded._id,
+          _id: decoded.id,
         });
       } catch (e) {
         console.error("Failed to decode token", e);
@@ -53,8 +53,6 @@ useEffect(() => {
     }
     setLoading(false);
   }, []);
-
-  console.log("User", user);
 
   const login = async (email: string, password: string) => {
     try {
@@ -74,7 +72,7 @@ useEffect(() => {
           email: decoded.email,
           name: decoded.name,
           programs: decoded.programs,
-          _id: decoded._id,
+          _id: decoded.id,
         });
         console.log("Login successful", decoded);
         toast.success("Hey! You are logged in successfully");

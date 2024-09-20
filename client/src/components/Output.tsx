@@ -24,8 +24,8 @@ const Output: React.FC = () => {
         </html>
     `;
 
-    return (
-        <div className="p-1">
+    return ( 
+        <div className="p-1 bg-[#141414] text-white h-full">
             <div className="p-2 flex gap-1 items-center">
                 {" "}
                 <RectangleEllipsis size={16} /> Preview{" "}
