@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "@/context/AuthContext";
 import { useContext } from "react";
 import CodeCard from "@/components/common/CodeCard";
-import { Card, CardContent } from "@/components/ui/card";
 import { Plus } from "lucide-react";
 import axios from "axios";
 import { useState } from "react";
@@ -31,7 +30,6 @@ const Dashboard = () => {
                         params: { userId: user?._id }, 
                     }
                 );
-                console.log(res.data.programs)
                 setProjects(res.data.programs); 
             } catch (error) {
                 console.error("Error fetching projects:", error);
@@ -43,7 +41,6 @@ const Dashboard = () => {
     }, [authContext.user?._id]);
 
     const handleDelete = async (id) => {
-        console.log('id', id);
         try {
             const res = await axios.post(
                 `${import.meta.env.VITE_API_BASE_URL}/api/deleteCode`,

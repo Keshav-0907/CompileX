@@ -5,8 +5,6 @@ const saveCode = async (req, res) => {
     try {
         const { codeData, name, userID } = req.body;
 
-        console.log('userID', userID);
-
         const newCode = new Code({
             name,
             codeData: {

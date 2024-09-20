@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "@/context/AuthContext";
-import { User, RectangleEllipsis, Mail } from "lucide-react";
+import { RectangleEllipsis, Mail } from "lucide-react";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -15,8 +15,6 @@ const Login = () => {
     const handleLogin = async () => {
         await login(email, password);
     };
-
-    console.log("user", user);
 
     useEffect(() => {
         if (user) {

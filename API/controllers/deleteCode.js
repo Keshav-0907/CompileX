@@ -2,7 +2,6 @@ const Code = require('../models/codeModel');
 
 const deleteCode = async (req, res) => {
     const { codeId } = req.body; 
-    console.log('Code ID:', codeId);
     try {
         const code = await Code.findByIdAndDelete(codeId);
         if (!code) {

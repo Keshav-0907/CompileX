@@ -21,7 +21,7 @@ const ShareCodeModal = () => {
             await navigator.clipboard.writeText(shareableLink);
             toast.success("Link copied");
             setIsCopied(true);
-            setTimeout(() => setIsCopied(false), 2000); // Reset copy status after 2 seconds
+            setTimeout(() => setIsCopied(false), 2000);
         } catch (error) {
             console.error("Failed to copy text: ", error);
         }

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -14,7 +14,9 @@ import { ArrowDownToLine } from "lucide-react";
 import AuthContext from "@/context/AuthContext";
 import { toast } from "react-hot-toast";
 
-const SaveModal = ({ handleCodeSave, isSaving, fileName }) => {
+
+
+const SaveModal = ({ handleCodeSave, fileName,isSaving }) => {
     const [open, setOpen] = useState(false);
 
     const authContext = useContext(AuthContext);
@@ -30,7 +32,7 @@ const SaveModal = ({ handleCodeSave, isSaving, fileName }) => {
     };
 
     return (
-        <Dialog onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <div className="flex items-center gap-2">
                     <Button variant="outline">
@@ -53,7 +55,7 @@ const SaveModal = ({ handleCodeSave, isSaving, fileName }) => {
                 </div>
                 <DialogFooter>
                     <Button type="submit" onClick={handleSave}>
-                        Save Project
+                        {isSaving ? "Saving..." : "Save"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -12,19 +11,32 @@ import { Label } from "@/components/ui/label";
 import { FaHtml5, FaCss3Alt } from "react-icons/fa";
 import { TbBrandJavascript } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import toast from "react-hot-toast";
 
-const formatDate = (timestamp) => {
-    if (!timestamp) return "N/A"; // Handle undefined or null timestamps
+interface ProjectProps {
+    _id: string;
+    name: string;
+    updatedAt: string;
+}
+
+interface CodeCardProps {
+    project: ProjectProps;
+    handleDelete: (id: string) => void;
+}
+
+const formatDate = (
+    timestamp: string | number | Date | null | undefined
+): string => {
+    if (timestamp === null || timestamp === undefined) return "N/A";
+
     const date = new Date(timestamp);
-    return isNaN(date) ? "Invalid date" : date.toISOString().split("T")[0];
+    return isNaN(date.getTime())
+        ? "Invalid date"
+        : date.toISOString().split("T")[0];
 };
 
-const CodeCard = ({ project, handleDelete }) => {
+const CodeCard = ({ project, handleDelete }: CodeCardProps) => {
     const navigate = useNavigate();
 
-   
     return (
         <Card className="w-[350px] border-[1px] border-gray-600 transition-shadow duration-300 bg-[#141414]">
             <CardHeader className="space-y-1 text-white">

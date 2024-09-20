@@ -24,6 +24,6 @@ app.use('/api', router)
 app.use('/api/user', userRouter)
 
 
-app.listen(8080, (req, res)=>{
-    console.log('Server is running on port 8080')
+app.listen(process.env.PORT, (req, res)=>{
+    console.log(`Server is running on port ${process.env.PORT} `)
 })

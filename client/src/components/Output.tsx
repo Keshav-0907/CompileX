@@ -29,7 +29,6 @@ const Output: React.FC = () => {
             <div className="p-2 flex gap-1 items-center">
                 {" "}
                 <RectangleEllipsis size={16} /> Preview{" "}
-                {/* <CornerRightDown size={10} className="top-10"/>{" "} */}
             </div>
             <iframe
                 className="rounded-lg"

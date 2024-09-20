@@ -53,22 +53,18 @@ const compilerSlice = createSlice({
     reducers: {
         // Reducer to change the file being shown
         changeFileToShow: (state, action: PayloadAction<string>) => {
-            console.log("changeFileToShow");
             state.fileToShow = action.payload;
         },
         // Reducer to update HTML content
         updateHTML: (state, action: PayloadAction<string>) => {
-            console.log("UpdateHTML");
             state.code.html = action.payload;
         },
         // Reducer to update CSS content
         updateCSS: (state, action: PayloadAction<string>) => {
-            console.log("UpdateCSS");
             state.code.css = action.payload;
         },
         // Reducer to update JavaScript content
         updateJS: (state, action: PayloadAction<string>) => {
-            console.log("UpdateJS");
             state.code.javascript = action.payload;
         },
     },

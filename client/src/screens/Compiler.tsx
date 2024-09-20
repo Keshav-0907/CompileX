@@ -39,7 +39,7 @@ const Compiler = () => {
         <ResizablePanelGroup direction="horizontal" className="h-[calc(100vh-71px)]">
             <ResizablePanel className="">
                 <EditorOptions />
-                <Editor />
+                <Editor finalCode={undefined} currFile={"html"} />
             </ResizablePanel>
             <ResizableHandle />
             <ResizablePanel className="">

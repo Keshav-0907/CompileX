@@ -12,7 +12,6 @@ const registerUser = async (req, res) => {
         }
 
         const isUser = await User.findOne({ email });
-        console.log(isUser);
 
         if (isUser) {
             return res.status(400).json({

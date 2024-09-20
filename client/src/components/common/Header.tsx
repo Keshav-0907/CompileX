@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,10 +12,21 @@ import { useContext } from "react";
 import toast from "react-hot-toast";
 import { FaUser } from "react-icons/fa";
 
+interface AuthProps {
+    user: User | null;
+    logout: () => void;
+}
+
+interface User {
+    email: string;
+    name: string;
+    programs: string[];
+    _id: string;
+}
+
 const Header = () => {
     const authContext = useContext(AuthContext);
-
-    const { user, logout } = authContext;
+    const { user, logout } = authContext as AuthProps;
 
     const handlePricing = () => {
         toast.success("Jk, its free");

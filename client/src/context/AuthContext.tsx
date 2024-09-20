@@ -9,12 +9,12 @@ interface AuthContextProps {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   loading: boolean;
-  orgAdminLogin?: (email: string, password: string) => Promise<void>; // Optional as it's not used in the provider
+  orgAdminLogin?: (email: string, password: string) => Promise<void>; 
 }
 interface JWTTokenPayload {
     email: string;
     name: string;
-    programs: string[]; // Adjust the type based on your data (e.g., an array of strings or other)
+    programs: string[];
     id: string;
   }
   
@@ -22,7 +22,7 @@ interface JWTTokenPayload {
   interface User {
     email: string;
     name: string;
-    programs: string[]; // Ensure this matches the programs type in JWTTokenPayload
+    programs: string[];
     _id: string;
   }
 
@@ -36,11 +36,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 useEffect(() => {
     setLoading(true);
     const token = localStorage.getItem("token");
-    console.log("Token Check:", token);
     if (token) {
       try {
         const decoded: JWTTokenPayload = jwtDecode<JWTTokenPayload>(token); 
-        console.log("Decoded token:", decoded);
         setUser({
           email: decoded.email,
           name: decoded.name,
@@ -61,20 +59,16 @@ useEffect(() => {
         email,
         password,
       });
-      console.log("Response:", response);
       if (response.status === 200) {
         const token = response.data.token;
-        console.log("Token:", token);
         localStorage.setItem("token", token);
         const decoded = jwtDecode<JWTTokenPayload>(token);
-        console.log("Decoded token:", decoded);
         setUser({
           email: decoded.email,
           name: decoded.name,
           programs: decoded.programs,
           _id: decoded.id,
         });
-        console.log("Login successful", decoded);
         toast.success("Hey! You are logged in successfully");
       }
     } catch (error) {

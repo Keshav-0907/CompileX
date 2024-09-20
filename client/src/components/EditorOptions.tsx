@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { ArrowDownToLine, Share2 } from "lucide-react";
+import { Share2 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "./ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -33,14 +33,12 @@ const EditorOptions = () => {
     const { user } = authContext;
     const [fileName, setFileName] = useState("");
     const [isSaving, setIsSaving] = useState(false);
-    const [isAutoSaving, setIsAutoSaving] = useState(false);
     const currFile = useSelector(
         (state: RootState) => state.compilerSlice.fileToShow
     );
     const codeState = useSelector(
         (state: RootState) => state.compilerSlice.code
     );
-    // const codeId = useSelector((state: RootState) => state.compilerSlice.codeId);
 
     useEffect(() => {
         const randomName = uniqueNamesGenerator({
@@ -49,15 +47,12 @@ const EditorOptions = () => {
         setFileName(randomName);
     }, []);
 
-    console.log("user", user);
-
     const handleCodeSave = async () => {
         if (!user) {
-            console.log("no user");
             toast.error("Please login to save the code");
             return;
         }
-
+        setIsSaving(true);
         const res = await axios.post(
             `${import.meta.env.VITE_API_BASE_URL}/api/savecode`,
             {
@@ -79,6 +74,7 @@ const EditorOptions = () => {
                 navigate(`/compiler/${res.data.codeID}`);
             }
         }
+        setIsSaving(false);
     };
 
     const handleUpdateCode = async () => {
@@ -94,8 +90,6 @@ const EditorOptions = () => {
                 userID: user._id,
             }
         );
-
-        console.log("update", res);
 
         if (res.status === 200) {
             toast.success("Code updated successfully");
@@ -123,11 +117,6 @@ const EditorOptions = () => {
             </Tabs>
 
             <div className="flex gap-5 items-center">
-                {isAutoSaving && (
-                    <span className="text-sm text-gray-400">
-                        Auto-saving...
-                    </span>
-                )}
                 {codeId ? (
                     <Button
                         variant="outline"
@@ -139,8 +128,8 @@ const EditorOptions = () => {
                 ) : (
                     <SaveModal
                         handleCodeSave={handleCodeSave}
-                        isSaving={isSaving}
                         fileName={fileName}
+                        isSaving={isSaving}
                     />
                 )}
 
